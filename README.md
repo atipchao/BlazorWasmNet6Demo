@@ -1,0 +1,1 @@
+# BlazorWasmNet6Demo

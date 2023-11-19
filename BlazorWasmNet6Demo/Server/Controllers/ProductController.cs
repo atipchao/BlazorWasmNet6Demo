@@ -15,12 +15,17 @@ namespace BlazorWasmNet6Demo.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProduct()
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProduct()
         {
-            //Ideally Controller should call Server to do the work on getting data.
-            //There shouldn't be _context in controller code.
-            var products = await _context.Products.ToListAsync(); 
-              return Ok(products); 
+            //Ideally Controller should call "Services" to do the work on getting data or whatever.
+            //There shouldn't be Dbcontext in controller code - it should be in Service.
+            var products = await _context.Products.ToListAsync();
+
+            var response = new ServiceResponse<List<Product>>()
+            {
+                Data = products
+            };
+              return Ok(response); 
         }
     }
 }

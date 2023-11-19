@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWasmNet6Demo.Server", "BlazorWasmNet6Demo\Server\BlazorWasmNet6Demo.Server.csproj", "{4D31CEFF-A7E4-4718-B41F-1A3C0871CB5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWasmNet6Demo.Server", "BlazorWasmNet6Demo\Server\BlazorWasmNet6Demo.Server.csproj", "{4D31CEFF-A7E4-4718-B41F-1A3C0871CB5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWasmNet6Demo.Client", "BlazorWasmNet6Demo\Client\BlazorWasmNet6Demo.Client.csproj", "{1516742C-A2E8-4DDA-8D3C-D57ECDB1056E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWasmNet6Demo.Client", "BlazorWasmNet6Demo\Client\BlazorWasmNet6Demo.Client.csproj", "{1516742C-A2E8-4DDA-8D3C-D57ECDB1056E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWasmNet6Demo.Shared", "BlazorWasmNet6Demo\Shared\BlazorWasmNet6Demo.Shared.csproj", "{D0E162F2-BDA2-4380-8445-766C119D8B7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWasmNet6Demo.Shared", "BlazorWasmNet6Demo\Shared\BlazorWasmNet6Demo.Shared.csproj", "{D0E162F2-BDA2-4380-8445-766C119D8B7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

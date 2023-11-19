@@ -7,25 +7,22 @@ namespace BlazorWasmNet6Demo.Server.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly DataContext _context;
+        //NOTE DbContext should NOT be used in Controller - put it in Service class instead
+        private readonly IProductService _productService;
 
-        public ProductController(DataContext context)
+        public ProductController(IProductService productService)
         {
-            _context = context;
+            _productService = productService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProduct()
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
         {
             //Ideally Controller should call "Services" to do the work on getting data or whatever.
             //There shouldn't be Dbcontext in controller code - it should be in Service.
-            var products = await _context.Products.ToListAsync();
-
-            var response = new ServiceResponse<List<Product>>()
-            {
-                Data = products
-            };
-              return Ok(response); 
+            //Instead, we use serveice here to fetch Products data
+            var result = await _productService.GetProductsAsync();            
+            return Ok(result);
         }
     }
 }

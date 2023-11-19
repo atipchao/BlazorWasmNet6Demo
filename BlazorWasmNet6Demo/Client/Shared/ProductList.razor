@@ -1,36 +1,49 @@
-﻿@inject HttpClient http
-<ul class="list-unstyled">
-    @foreach (var product in Products)
-    {
-        <li classs="media my-3"   >
-            <div class="media-img-wrapper mr-2">
-                <a href="#">
-                    <img class="media-img" src="@product.ImageUrl" alt="@product.Title" />
-                </a>
-            </div>
-            <div class="media-body">
-                <a href="#">
-                    <h4 class="mb-0">@product.Title</h4>
-                </a>
-                <p>@product.Description</p>
-                <h5 class="price">
-                    $@product.Price
-                </h5>
-            </div>
-        </li>
-    }
-</ul>
-<h3>ProductList</h3>
+﻿@inject IProductService ProductService
 
+@if (ProductService.Products == null || ProductService.Products.Count == 0)
+{
+    <span> Loading... </span>
+}
+else
+{
+
+
+    <ul class="list-unstyled">
+        @foreach (var product in ProductService.Products)
+        {
+            <li classs="media my-3">
+                <div class="media-img-wrapper mr-2">
+                    <a href="#">
+                        <img class="media-img" src="@product.ImageUrl" alt="@product.Title" />
+                    </a>
+                </div>
+                <div class="media-body">
+                    <a href="#">
+                        <h4 class="mb-0">@product.Title</h4>
+                    </a>
+                    <p>@product.Description</p>
+                    <h5 class="price">
+                        $@product.Price
+                    </h5>
+                </div>
+            </li>
+        }
+    </ul>
+    <h3>ProductList</h3>
+}
 @code {
-    private static List<Product> Products = new List<Product>();
+    //private static List<Product> Products = new List<Product>();
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product");
-        if (result != null && result.Data != null) {
-            Products = result.Data;
-        }
+        // Since we inject IProductService now we don't need to use http client call below...
+        // var result = await http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product");
+        // if (result != null && result.Data != null) {
+        //     Products = result.Data;
+        // }
+        // Now we use the Service call
+        await ProductService.GetProducts();
+
     }
 
 }

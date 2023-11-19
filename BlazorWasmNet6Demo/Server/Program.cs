@@ -1,6 +1,6 @@
 global using BlazorWasmNet6Demo.Shared;
 global using Microsoft.EntityFrameworkCore;
-using BlazorWasmNet6Demo.Server.Data;
+global using BlazorWasmNet6Demo.Server.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

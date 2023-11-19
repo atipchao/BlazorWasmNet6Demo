@@ -21,7 +21,16 @@ namespace BlazorWasmNet6Demo.Server.Controllers
             //Ideally Controller should call "Services" to do the work on getting data or whatever.
             //There shouldn't be Dbcontext in controller code - it should be in Service.
             //Instead, we use serveice here to fetch Products data
-            var result = await _productService.GetProductsAsync();            
+            var result = await _productService.GetProductsAsync();
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<ServiceResponse<Product>>> GetProductsByIdAsync(int id)
+        {
+            var result = await _productService.GetProductsByIdAsync(id);
             return Ok(result);
         }
     }

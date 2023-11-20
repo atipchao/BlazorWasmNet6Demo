@@ -1,4 +1,5 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject ICategoryService CategoryService
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">BlazorWasmNet6Demo</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -14,6 +15,15 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+        @foreach(var category in CategoryService.Categories)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="@category.Url">
+                    <b>@category.Name</b>
+                </NavLink>
+            </div>
+        }
+
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="counter">
                 <span class="oi oi-plus" aria-hidden="true"></span> Counter
@@ -36,4 +46,12 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+    // Add LifeCycle Method for CategoryService - below:
+    protected override async Task OnInitializedAsync()
+    {
+        await CategoryService.GetCategories();
+
+    }
+
+
 }

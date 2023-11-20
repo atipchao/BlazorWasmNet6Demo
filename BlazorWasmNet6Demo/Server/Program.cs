@@ -2,6 +2,7 @@ global using BlazorWasmNet6Demo.Shared;
 global using Microsoft.EntityFrameworkCore;
 global using BlazorWasmNet6Demo.Server.Data;
 global using BlazorWasmNet6Demo.Server.Services.ProductService;
+global using BlazorWasmNet6Demo.Server.Services.CategoryService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen();
 
 // Below are the Business Services - Reister here
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 

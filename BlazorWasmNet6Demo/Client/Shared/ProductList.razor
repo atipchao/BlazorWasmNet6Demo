@@ -1,5 +1,5 @@
 ﻿@inject IProductService ProductService
-
+@implements IDisposable
 @if (ProductService.Products == null || ProductService.Products.Count == 0)
 {
     <span> Loading... </span>
@@ -34,16 +34,27 @@ else
 @code {
     //private static List<Product> Products = new List<Product>();
 
-    protected override async Task OnInitializedAsync()
-    {
-        // Since we inject IProductService now we don't need to use http client call below...
-        // var result = await http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product");
-        // if (result != null && result.Data != null) {
-        //     Products = result.Data;
-        // }
-        // Now we use the Service call
-        await ProductService.GetProducts();
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     // Since we inject IProductService now we don't need to use http client call below...
+    //     // var result = await http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product");
+    //     // if (result != null && result.Data != null) {
+    //     //     Products = result.Data;
+    //     // }
+    //     // Now we use the Service call
+    //     await ProductService.GetProducts();
+    // }
 
+    ////Now we invoke by category - Not async any more
+    // this below is about detecting changes on the category such as Books, Movies, Vedeo-games
+    protected override void OnInitialized()
+    {
+        //this is where it subscripted to the productchanged event  -so it rerendering 
+        ProductService.ProductChanged += StateHasChanged;
     }
 
+    public void Dispose()
+    {
+        ProductService.ProductChanged -= StateHasChanged;
+    }
 }

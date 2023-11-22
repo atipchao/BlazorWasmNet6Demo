@@ -20,6 +20,16 @@ namespace BlazorWasmNet6Demo.Server.Services.ProductService
             return response;
         }
 
+        public async Task<ServiceResponse<List<Product>>> GetProductsByCategoryAsync(string? categoryUrl)
+        {
+            var response = new ServiceResponse<List<Product>>
+            {
+                Data = await _context.Products.Where(s => s.Category.Url.ToLower() == categoryUrl.ToLower())
+                    .ToListAsync()
+            };
+            return response;
+        }
+
         public async Task<ServiceResponse<Product>> GetProductsByIdAsync(int id)
         {
             var response = new ServiceResponse<Product>();

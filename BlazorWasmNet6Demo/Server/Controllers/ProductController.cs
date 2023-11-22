@@ -33,5 +33,15 @@ namespace BlazorWasmNet6Demo.Server.Controllers
             var result = await _productService.GetProductsByIdAsync(id);
             return Ok(result);
         }
+
+        //categoryUrl
+        [HttpGet]
+        [Route("category/{categoryUrl}")]
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsByCategoryAsync(string categoryUrl)
+        {
+            var result = await _productService.GetProductsByCategoryAsync(categoryUrl);
+            return Ok(result);
+        }
+
     }
 }

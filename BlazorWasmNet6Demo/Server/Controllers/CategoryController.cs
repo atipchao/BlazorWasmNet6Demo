@@ -28,5 +28,7 @@ namespace BlazorWasmNet6Demo.Server.Controllers
             var result = await _categoryService.GetCategoryByIdAsync(id);
             return Ok(result);
         }
+
+        
     }
 }

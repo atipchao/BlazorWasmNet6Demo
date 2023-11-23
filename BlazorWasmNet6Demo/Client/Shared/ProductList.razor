@@ -24,6 +24,7 @@ else
                     <p>@product.Description</p>
                     <h5 class="price">
                         @* $@product.Price *@
+                        @GetPriceText(product)
                     </h5>
                 </div>
             </li>
@@ -57,4 +58,22 @@ else
     {
         ProductService.ProductChanged -= StateHasChanged;
     }
+
+    private string  GetPriceText(Product product)
+    {
+        var variants = product.Variants;
+        if(variants.Count == 0)
+        {
+            return string.Empty;
+        }
+        else if (variants.Count == 1)
+        {
+            return $"Now $:{variants[0].Price}";
+        }
+        decimal minPrice = variants.Min(s => s.Price);
+        return $"Starting at $:{minPrice}";
+
+    }
+
+
 }

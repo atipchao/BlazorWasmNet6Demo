@@ -41,7 +41,7 @@ namespace BlazorWasmNet6Demo.Server.Services.ProductService
                 .ThenInclude(v => v.ProductType)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if(product == null)
+            if (product == null)
             {
                 response.Success = false;
                 response.Message = "Product Not found id: " + id.ToString();
@@ -52,5 +52,59 @@ namespace BlazorWasmNet6Demo.Server.Services.ProductService
             }
             return response;
         }
+
+        public async Task<ServiceResponse<List<string>>> GetProductSearchSuggestions(string SearchText)
+        {
+            var products = await FindProductBySearchText(SearchText);
+            List<String> result = new List<string>();
+
+            foreach (var product in products)
+            {
+                if(product.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.Add(product.Title);
+                }
+                if(product.Description != null)
+                {
+                    var punctuation = product.Description.Where(char.IsPunctuation)
+                        .Distinct().ToArray();
+                    var words = product.Description.Split()
+                        .Select(s => s.Trim(punctuation));
+
+                    foreach (var word in words)
+                    {
+                        if(word.Contains(SearchText, StringComparison.OrdinalIgnoreCase)
+                            && !result.Contains(word))
+                        {
+                            result.Add(word);
+                        }
+                    }
+
+                }
+
+            }
+
+            return new ServiceResponse<List<string>>{Data = result};
+
+        }
+
+        public async Task<ServiceResponse<List<Product>>> SearchProducts(string searchText)
+        {
+            var response = new ServiceResponse<List<Product>>
+            {
+                Data = await FindProductBySearchText(searchText)
+            };
+            return response;
+        }
+
+        private async Task<List<Product>> FindProductBySearchText(string searchText)
+        {
+            return await _context.Products
+                            .Where(p => p.Title.ToLower().Contains(searchText.ToLower())
+                            || p.Description.ToLower().Contains(searchText.ToLower()))
+                            .Include(p => p.Variants)
+                            .ToListAsync();
+        }
     }
 }
+

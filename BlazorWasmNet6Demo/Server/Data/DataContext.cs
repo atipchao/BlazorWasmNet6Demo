@@ -11,7 +11,30 @@ namespace BlazorWasmNet6Demo.Server.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
+
+
             base.OnModelCreating(modelBuilder);
+            
+            //Regarding composit kay - here like this below
+            modelBuilder.Entity<ProductVariant>()
+                .HasKey(x => new { x.ProductId, x.ProductTypeId});
+
+            // Seed ProductType table
+            modelBuilder.Entity<ProductType>().HasData(
+                   new ProductType { Id = 1, Name = "Default" },
+                   new ProductType { Id = 2, Name = "Paperback" },
+                   new ProductType { Id = 3, Name = "E-Book" },
+                   new ProductType { Id = 4, Name = "Audiobook" },
+                   new ProductType { Id = 5, Name = "Stream" },
+                   new ProductType { Id = 6, Name = "Blu-ray" },
+                   new ProductType { Id = 7, Name = "VHS" },
+                   new ProductType { Id = 8, Name = "PC" },
+                   new ProductType { Id = 9, Name = "PlayStation" },
+                   new ProductType { Id = 10, Name = "Xbox" }
+               );
+
+
             // Seed Category table
             modelBuilder.Entity<Category>().HasData(
                 new Category
@@ -42,7 +65,7 @@ namespace BlazorWasmNet6Demo.Server.Data
                          Title = "The Hitchhiker's Guide to the Galaxy",
                          Description = "The various versions follow the same basic plot but they are in many places mutually contradictory, as Adams rewrote the story substantially for each new adaptation. The various versions follow the same basic plot but they are in many places mutually contradictory, as Adams rewrote the story substantially for each new adaptation. The various versions follow the same basic plot but they are in many places mutually contradictory, as Adams rewrote the story substantially for each new adaptation. The various versions follow the same basic plot but they are in many places mutually contradictory, as Adams rewrote the story substantially for each new adaptation.",
                          ImageUrl = "https://upload.wikimedia.org/wikipedia/en/b/bd/H2G2_UK_front_cover.jpg",
-                         Price = 9.99m,
+                         
                          CategoryId = 1
                      },
                     new Product
@@ -51,7 +74,7 @@ namespace BlazorWasmNet6Demo.Server.Data
                         Title = "Ready Player One",
                         Description = "Ready Player One is a 2011 science fiction novel, and the debut novel of American author Ernest Cline. The various versions follow the same basic plot but they are in many places mutually contradictory, as Adams rewrote the story substantially for each new adaptation. The various versions follow the same basic plot but they are in many places mutually contradictory, as Adams rewrote the story substantially for each new adaptation.",
                         ImageUrl = "https://upload.wikimedia.org/wikipedia/en/a/a4/Ready_Player_One_cover.jpg",
-                        Price = 7.99m,
+                         
                         CategoryId = 1
                     },
                     new Product
@@ -60,7 +83,7 @@ namespace BlazorWasmNet6Demo.Server.Data
                         Title = "Ready Player Two",
                         Description = "Ready Player Two is a 2020 science fiction novel by American author Ernest Cline. The various versions follow the same basic plot but they are in many places mutually contradictory, as Adams rewrote the story substantially for each new adaptation. The various versions follow the same basic plot but they are in many places mutually contradictory, as Adams rewrote the story substantially for each new adaptation. The various versions follow the same basic plot but they are in many places mutually contradictory, as Adams rewrote the story substantially for each new adaptation.",
                         ImageUrl = "https://upload.wikimedia.org/wikipedia/en/c/cd/Ready_Player_Two_-_book_cover.jpg",
-                        Price = 8.99m,
+                        
                         CategoryId = 1
                     },
                      new Product
@@ -130,8 +153,124 @@ namespace BlazorWasmNet6Demo.Server.Data
                         ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/e/ee/Nintendo-Super-Famicom-Set-FL.jpg",
                     }
                 );
+
+            modelBuilder.Entity<ProductVariant>().HasData(
+               new ProductVariant
+               {
+                   ProductId = 1,
+                   ProductTypeId = 2,
+                   Price = 9.99m,
+                   OriginalPrice = 19.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 1,
+                   ProductTypeId = 3,
+                   Price = 7.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 1,
+                   ProductTypeId = 4,
+                   Price = 19.99m,
+                   OriginalPrice = 29.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 2,
+                   ProductTypeId = 2,
+                   Price = 7.99m,
+                   OriginalPrice = 14.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 3,
+                   ProductTypeId = 2,
+                   Price = 6.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 4,
+                   ProductTypeId = 5,
+                   Price = 3.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 4,
+                   ProductTypeId = 6,
+                   Price = 9.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 4,
+                   ProductTypeId = 7,
+                   Price = 19.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 5,
+                   ProductTypeId = 5,
+                   Price = 3.99m,
+               },
+               new ProductVariant
+               {
+                   ProductId = 6,
+                   ProductTypeId = 5,
+                   Price = 2.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 7,
+                   ProductTypeId = 8,
+                   Price = 19.99m,
+                   OriginalPrice = 29.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 7,
+                   ProductTypeId = 9,
+                   Price = 69.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 7,
+                   ProductTypeId = 10,
+                   Price = 49.99m,
+                   OriginalPrice = 59.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 8,
+                   ProductTypeId = 8,
+                   Price = 9.99m,
+                   OriginalPrice = 24.99m,
+               },
+               new ProductVariant
+               {
+                   ProductId = 9,
+                   ProductTypeId = 8,
+                   Price = 14.99m
+               },
+               new ProductVariant
+               {
+                   ProductId = 10,
+                   ProductTypeId = 1,
+                   Price = 159.99m,
+                   OriginalPrice = 299m
+               },
+               new ProductVariant
+               {
+                   ProductId = 11,
+                   ProductTypeId = 1,
+                   Price = 79.99m,
+                   OriginalPrice = 399m
+               }
+           );
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<ProductVariant> ProductVariants { get; set; }
+
     }
 }

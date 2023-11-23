@@ -14,7 +14,9 @@ namespace BlazorWasmNet6Demo.Server.Services.ProductService
         {
             var response = new ServiceResponse<List<Product>>
             {
-                Data = await _context.Products.ToListAsync()
+                Data = await _context.Products
+                .Include(p => p.Variants)
+                .ToListAsync()
 
             };
             return response;
@@ -25,6 +27,7 @@ namespace BlazorWasmNet6Demo.Server.Services.ProductService
             var response = new ServiceResponse<List<Product>>
             {
                 Data = await _context.Products.Where(s => s.Category.Url.ToLower() == categoryUrl.ToLower())
+                    .Include(p => p.Variants)
                     .ToListAsync()
             };
             return response;
@@ -33,7 +36,11 @@ namespace BlazorWasmNet6Demo.Server.Services.ProductService
         public async Task<ServiceResponse<Product>> GetProductsByIdAsync(int id)
         {
             var response = new ServiceResponse<Product>();
-            var product = await _context.Products.SingleOrDefaultAsync(x => x.Id == id);
+            var product = await _context.Products
+                .Include(p => p.Variants)
+                .ThenInclude(v => v.ProductType)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
             if(product == null)
             {
                 response.Success = false;

@@ -1,4 +1,6 @@
 ﻿
+using System.Dynamic;
+
 namespace BlazorWasmNet6Demo.Client.Services.ProductService
 {
     public class ProductService : IProductService
@@ -10,6 +12,9 @@ namespace BlazorWasmNet6Demo.Client.Services.ProductService
             _httpClient = httpClient;
         }
         public List<Product> Products { get; set; } = new List<Product>();
+
+        public string Message { get; set; } = "Loading Message";
+
         public Product Product { get; set; } = new Product();
 
         public event Action ProductChanged;
@@ -35,6 +40,25 @@ namespace BlazorWasmNet6Demo.Client.Services.ProductService
             ProductChanged.Invoke();
         }
 
-        
+        public async Task<List<string>> GetProductSearchSuggesstion(string searchText)
+        {
+            var result = await _httpClient.GetFromJsonAsync<ServiceResponse<List<string>>>($"api/product/searchsuggestions/{searchText}");
+            return result.Data;
+        }
+
+        public async Task SearchProducts(string searchText)
+        {
+            var result = await _httpClient
+                .GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/product/search/{searchText}"); 
+            if(result != null && result.Data != null)
+            {
+                Products = result.Data;
+            }
+            if(Products.Count == 0)
+            {
+                Message = "No products found.";
+            }
+            ProductChanged?.Invoke();
+        }
     }
 }

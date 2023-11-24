@@ -6,6 +6,8 @@
         List<Product> Products { get; set; }
         Task GetProducts(string? categoryUrl = null);
         Task <ServiceResponse<Product>> GetProductById(int id);
+        Task SearchProducts(string searchText);
+        Task<List<string>> GetProductSearchSuggesstion(string searchText);
 
     }
 }

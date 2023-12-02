@@ -6,14 +6,15 @@ namespace BlazorWasmNet6Demo.Client.Services.ProductService
     public class ProductService : IProductService
     {
         private readonly HttpClient _httpClient;
-
+        
         public ProductService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
         public List<Product> Products { get; set; } = new List<Product>();
 
-        public string Message { get; set; } = "Loading Message";
+       
+        public string Message { get; set; } = "Loading products...";
 
         public Product Product { get; set; } = new Product();
 

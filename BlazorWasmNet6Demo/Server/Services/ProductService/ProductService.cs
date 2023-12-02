@@ -10,6 +10,18 @@ namespace BlazorWasmNet6Demo.Server.Services.ProductService
         {
             _context = context;
         }
+
+        public async Task<ServiceResponse<List<Product>>> GetFeaturedProducts()
+        {
+            var response = new ServiceResponse<List<Product>>
+            {
+                Data = await _context.Products.Where(s => s.Featured)
+                .Include(s => s.Variants)
+                .ToListAsync()
+            };
+            return response;
+        }
+
         public async Task<ServiceResponse<List<Product>>> GetProductsAsync()
         {
             var response = new ServiceResponse<List<Product>>

@@ -1,0 +1,14 @@
+﻿@inject NavigationManager nav
+
+<button @onclick="GotoHome"
+        class="btn btn-outline-primary home-button">
+        My Shop
+</button>
+@code {
+
+    private void GotoHome()
+    {
+        nav.NavigateTo("");
+    }
+
+}

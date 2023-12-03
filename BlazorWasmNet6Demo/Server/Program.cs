@@ -1,4 +1,5 @@
 global using BlazorWasmNet6Demo.Shared;
+global using BlazorWasmNet6Demo.Shared.DTO;
 global using Microsoft.EntityFrameworkCore;
 global using BlazorWasmNet6Demo.Server.Data;
 global using BlazorWasmNet6Demo.Server.Services.ProductService;

@@ -44,10 +44,10 @@ namespace BlazorWasmNet6Demo.Server.Controllers
         }
 
         [HttpGet]
-        [Route("search/{searchText}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> SearchProcucts(string searchText)
+        [Route("search/{searchText}/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductSearchResult>>> SearchProcucts(string searchText, int page)
         {
-            var result = await _productService.SearchProducts(searchText);
+            var result = await _productService.SearchProducts(searchText, page);
             return Ok(result);
         }
 

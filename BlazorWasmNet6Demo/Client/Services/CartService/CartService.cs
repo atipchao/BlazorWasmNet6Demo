@@ -19,6 +19,7 @@ namespace BlazorWasmNet6Demo.Client.Services.CartService
             List<CartItem>? cart = await FetchCartItems();
             cart.Add(cartItem);
             await _localStorage.SetItemAsync("cart", cart);
+            Onchange?.Invoke();
         }
         
         public async Task<List<CartItem>> GetCartItems()

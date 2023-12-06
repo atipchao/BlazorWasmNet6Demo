@@ -5,6 +5,8 @@ global using BlazorWasmNet6Demo.Server.Data;
 global using BlazorWasmNet6Demo.Server.Services.ProductService;
 global using BlazorWasmNet6Demo.Server.Services.CategoryService;
 
+global using BlazorWasmNet6Demo.Server.Services.CartService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,6 +23,10 @@ builder.Services.AddSwaggerGen();
 // Below are the Business Services - Reister here
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICartService, CartService>();
+
+
+
 
 var app = builder.Build();
 

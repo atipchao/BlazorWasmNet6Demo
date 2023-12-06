@@ -1,5 +1,6 @@
 ﻿
 using Blazored.LocalStorage;
+using BlazorWasmNet6Demo.Shared.DTO;
 
 namespace BlazorWasmNet6Demo.Client.Services.CartService
 {
@@ -7,11 +8,14 @@ namespace BlazorWasmNet6Demo.Client.Services.CartService
     {
         private readonly ILocalStorageService _localStorage;
 
+        private readonly HttpClient _http;
+
         public event Action Onchange;
 
-        public CartService(ILocalStorageService localStorage)
+        public CartService(ILocalStorageService localStorage, HttpClient http)
         {
             _localStorage = localStorage;
+            _http = http;
         }
 
         public async Task AddToCart(CartItem cartItem)
@@ -37,6 +41,17 @@ namespace BlazorWasmNet6Demo.Client.Services.CartService
             }
 
             return cart;
+        }
+
+        public async Task<List<CartProductResponse>> GetCartProducts()
+        {
+            var cartItems = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+            if (cartItems == null)
+                return new List<CartProductResponse>();            
+            var response = await _http.PostAsJsonAsync("api/cart/products", cartItems);
+            var cartProducts =
+                await response.Content.ReadFromJsonAsync<ServiceResponse<List<CartProductResponse>>>();
+            return cartProducts.Data;
         }
     }
 }

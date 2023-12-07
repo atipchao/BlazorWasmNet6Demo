@@ -53,5 +53,26 @@ namespace BlazorWasmNet6Demo.Client.Services.CartService
                 await response.Content.ReadFromJsonAsync<ServiceResponse<List<CartProductResponse>>>();
             return cartProducts.Data;
         }
+
+        public async Task RemoveProductFromCart(int productId, int productTypeId)
+        {
+            var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+            if(cart == null)
+            {
+                return;
+            }
+
+            // get the cart item we will remove
+            var cartItem = cart.Find(s => s.ProductId == productId
+                && s.ProductTypeId == productTypeId);
+            if(cartItem != null)
+            {
+                cart.Remove(cartItem);
+                await _localStorage.SetItemAsync("cart", cart);
+                Onchange.Invoke();
+            }
+                
+
+        }
     }
 }

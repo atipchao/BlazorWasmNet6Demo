@@ -1,5 +1,6 @@
 ﻿
 using Blazored.LocalStorage;
+using BlazorWasmNet6Demo.Shared;
 using BlazorWasmNet6Demo.Shared.DTO;
 
 namespace BlazorWasmNet6Demo.Client.Services.CartService
@@ -21,7 +22,23 @@ namespace BlazorWasmNet6Demo.Client.Services.CartService
         public async Task AddToCart(CartItem cartItem)
         {
             List<CartItem>? cart = await FetchCartItems();
-            cart.Add(cartItem);
+            if (cart == null)
+            {
+                cart = new List<CartItem>();
+            }
+
+            var sameItem = cart.Find(x => x.ProductId == cartItem.ProductId
+            && x.ProductTypeId == cartItem.ProductTypeId);
+            if(sameItem == null)
+            {
+                cart.Add(cartItem);
+            }
+            else
+            {
+                sameItem.Quantity += cartItem.Quantity;
+            }
+            
+
             await _localStorage.SetItemAsync("cart", cart);
             Onchange?.Invoke();
         }
@@ -72,6 +89,27 @@ namespace BlazorWasmNet6Demo.Client.Services.CartService
                 Onchange.Invoke();
             }
                 
+
+        }
+
+        public async Task UpdateQuantity(CartProductResponse product)
+        {
+            var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+            if (cart == null)
+            {
+                return;
+            }
+
+            // get the cart item we will remove
+            var cartItem = cart.Find(s => s.ProductId ==product.ProductId
+                && s.ProductTypeId == product.ProductTypeId);
+            if (cartItem != null)
+            {
+                cartItem.Quantity = product.Quantity;
+                //Set items to the local storage below
+                await _localStorage.SetItemAsync("cart", cart);
+                
+            }
 
         }
     }
